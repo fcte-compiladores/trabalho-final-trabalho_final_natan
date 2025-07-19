@@ -1,0 +1,14 @@
+programa {
+    funcao inteiro fatorial(inteiro n) {
+        se (n == 0) {
+            retorne 1;
+        } senao {
+            retorne n * fatorial(n - 1);
+        }
+    }
+
+    inteiro numero;
+    escreva("Digite um número para calcular o fatorial:");
+    leia(numero);
+    escreva("O fatorial de ", numero, " é ", fatorial(numero));
+}

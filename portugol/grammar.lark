@@ -1,0 +1,97 @@
+start: programa
+
+programa: "programa" bloco
+
+bloco: "{" (declaracao | comando)* "}"
+
+// Declarações 
+declaracao: declaracao_variavel | declaracao_funcao
+
+declaracao_variavel_base: tipo IDENTIFICADOR ("=" expressao)?
+declaracao_variavel: declaracao_variavel_base ";"
+
+declaracao_funcao: "funcao" tipo IDENTIFICADOR "(" parametros? ")" bloco
+parametros: parametro ("," parametro)*
+parametro: tipo IDENTIFICADOR
+
+// Comandos 
+comando: comando_atribuicao
+       | comando_se
+       | comando_enquanto
+       | comando_para
+       | comando_escreva
+       | comando_leia
+       | comando_retorne
+       | chamada_funcao ";"
+       | bloco
+
+atribuicao_base: IDENTIFICADOR "=" expressao
+comando_atribuicao: atribuicao_base ";"
+
+comando_se: "se" "(" expressao ")" comando ("senao" comando)?
+comando_enquanto: "enquanto" "(" expressao ")" comando
+comando_para: "para" "(" (declaracao_variavel_base | atribuicao_base) ";" expressao ";" atribuicao_base ")" comando
+
+comando_escreva: "escreva" "(" lista_expressoes? ")" ";"
+comando_leia: "leia" "(" IDENTIFICADOR ")" ";"
+comando_retorne: "retorne" expressao? ";"
+
+// Expressões 
+lista_expressoes: expressao ("," expressao)*
+
+expressao: expressao_logica
+expressao_logica: expressao_relacional ((E | OU) expressao_relacional)*
+expressao_relacional: expressao_aditiva ((IGUAL | DIFERENTE | MENOR | MENOR_IGUAL | MAIOR | MAIOR_IGUAL) expressao_aditiva)*
+expressao_aditiva: expressao_multiplicativa ((MAIS | MENOS) expressao_multiplicativa)*
+expressao_multiplicativa: expressao_unaria ((VEZES | DIVIDIR | MODULO) expressao_unaria)*
+expressao_unaria: (NAO | MENOS) expressao_unaria | expressao_primaria
+
+expressao_primaria: NUMERO
+                  | NUMERO_REAL
+                  | STRING
+                  | CARACTERE
+                  | BOOLEANO
+                  | IDENTIFICADOR -> identificador_expr
+                  | chamada_funcao
+                  | "(" expressao ")"
+
+chamada_funcao: IDENTIFICADOR "(" lista_expressoes? ")"
+
+// Tipos e Terminais
+tipo: T_INTEIRO | T_REAL | T_CARACTERE | T_LOGICO | T_CADEIA
+
+T_INTEIRO: "inteiro"
+T_REAL: "real"
+T_CARACTERE: "caractere"
+T_LOGICO: "logico"
+T_CADEIA: "cadeia"
+
+// Operadores como Terminais
+MAIS: "+"
+MENOS: "-"
+VEZES: "*"
+DIVIDIR: "/"
+MODULO: "%"
+IGUAL: "=="
+DIFERENTE: "!="
+MENOR: "<"
+MENOR_IGUAL: "<="
+MAIOR: ">"
+MAIOR_IGUAL: ">="
+E: "e"
+OU: "ou"
+NAO: "!"
+
+// Tokens
+IDENTIFICADOR: /[a-zA-Z_][a-zA-Z0-9_]*/
+NUMERO: /[0-9]+/
+NUMERO_REAL: /[0-9]+\.[0-9]+/
+STRING: /"[^"]*"/
+CARACTERE: /'[^']'/
+BOOLEANO: "verdadeiro" | "falso"
+
+// Skips
+%import common.WS
+%ignore WS
+%import common.CPP_COMMENT
+%ignore CPP_COMMENT

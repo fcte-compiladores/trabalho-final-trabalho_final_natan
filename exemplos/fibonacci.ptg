@@ -1,0 +1,13 @@
+programa {
+    funcao inteiro fibonacci(inteiro n) {
+        se (n <= 1) {
+            retorne n;
+        }
+        retorne fibonacci(n - 1) + fibonacci(n - 2);
+    }
+
+    inteiro termo;
+    escreva("Digite o termo da sequência de Fibonacci que deseja calcular:");
+    leia(termo);
+    escreva("O termo ", termo, " da sequência de Fibonacci é ", fibonacci(termo));
+}
