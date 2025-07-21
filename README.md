@@ -58,6 +58,24 @@ Para instalar as dependências e executar o interpretador, siga os passos abaixo
     python3 main.py exemplos/nome_do_arquivo.ptg
     ```
 
+## Testes
+
+O projeto utiliza `pytest` para a automação dos testes, garantindo o funcionamento correto dos principais componentes do interpretador.
+
+Para executar os testes, certifique-se de que as dependências de desenvolvimento estão instaladas e execute o seguinte comando na raiz do projeto:
+
+```bash
+pytest
+```
+
+Os testes cobrem as funcionalidades de:
+
+-   Declaração e atribuição de variáveis.
+-   Avaliação de expressões aritméticas.
+-   Execução de estruturas de controle (`se`, `senao`, `enquanto`, `para`).
+-   Operações de entrada e saída (`leia`, `escreva`).
+-   Chamada de funções, incluindo funções recursivas.
+
 ## Exemplos
 
 A pasta `exemplos/` contém arquivos de código na linguagem Portugol com complexidade variada.
